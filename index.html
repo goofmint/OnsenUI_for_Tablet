@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html class='' ng-app="myApp">
+  <head>
+    <meta charset='UTF-8'>
+    <meta name="robots" content="noindex">
+    <link rel='stylesheet prefetch' href='stylesheets/onsenui.css'>
+    <link rel='stylesheet prefetch' href='stylesheets/onsen-css-components.css'>
+  </head>
+  <body>
+    <ons-sliding-menu
+       main-page="page1.html"
+       menu-page="secondary.html"
+       side="left"
+       var="app.slideView"
+       ons-if-orientation="portrait"
+       close-on-tap
+       swipeable>
+    </ons-sliding-menu>
+  <div ons-if-orientation="landscape">
+    <ons-split-view
+    var="app.splitView"
+    secondary-page="secondary.html"
+    main-page="page1.html"
+    main-page-width="70%"
+    collapse="width 500px">
+  </ons-split-view>
+  </div>
+  <ons-template id="secondary.html">
+    <ons-page style="background-color: white; border-right: 1px solid #ddd;">
+      <ons-list ng-controller="MenuController">
+        <ons-list-item
+          modifier="tappable"
+          class="list__item__line-height"
+          ng-click="changePage('page1.html')">
+          <i class="fa fa-home fa-lg" style="color: #666"></i>
+          &nbsp; Page 1
+        </ons-list-item>
+
+        <ons-list-item
+          modifier="tappable"
+          class="list__item__line-height"
+          ng-click="changePage('page2.html')">
+          <i class="fa fa-gear fa-lg" style="color: #666"></i>
+          &nbsp; Page 2
+        </ons-list-item>
+
+      </ons-list>
+    </ons-page>
+  </ons-template>
+
+  <ons-template id="page1.html">
+    <ons-navigator>
+      <ons-page>
+        <ons-toolbar>
+          <div class="center">Page1</div>
+        </ons-toolbar>
+        <div style="text-align: center; color: #999; padding: 60px 10px 10px 10px;">
+          <p>This spitview collapses when the width is less than 500px. </p>
+          
+          <p>
+            <a href="#" target="_blank" class="button button--light">Open Another Window</a>
+          </p>
+        </div>
+      </ons-page>
+    </ons-navigator>
+  </ons-template>
+
+  <ons-template id="page2.html">
+    <ons-navigator>
+      <ons-page>
+        <ons-toolbar>
+          <div class="center">Page2</div>
+        </ons-toolbar>
+        <p style="text-align: center; color: #999; padding-top: 100px;">
+          Page2 Contents
+        </p>
+      </ons-page>
+    </ons-navigator>
+  </ons-template>
+
+  <script src='javascripts/all.js'></script>
+  <script>
+    var module = ons.bootstrap('myApp', ['onsen']);
+    module.controller('MenuController', function($scope) {
+      ons.ready(function() {
+      });
+      $scope.changePage = function(name) {
+        if (ons.orientation.isLandscape()) {
+          app.splitView.setMainPage(name);
+        }else{
+          app.slideView.setMainPage(name, {closeMenu: true});
+        }
+      }
+    });
+  </script>
+  </body>
+</html>
+
